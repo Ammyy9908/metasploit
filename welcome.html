@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Testing</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src= 
+"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> 
+    </script> 
+    <style type="text/css">
+    	body
+    	{
+    		margin: 0;
+    		padding: 0;
+    	}
+
+    	
+    </style>
+  </head>
+  <body>
+  <!--Add Quotes Modal Ends-->
+
+
+  <div class="hero is-black">
+  	<div class="hero-body">
+  		<div class="columns">
+  			<div class="column is-12">
+  				<div class="box">
+  					<form class="form" id="add_data">
+  						<div class="field">
+  <label class="label">Provide Your Name</label>
+  <div class="control">
+    <input class="input" type="text" placeholder="Enter Your Real Name!" id="name">
+  </div>
+</div>
+<div class="field">
+	<button class="button is-link has-text-white" type="submit">Add</button>
+</div>
+  					</form>
+  				</div>
+  			</div>
+  			
+  		</div>
+  	</div>
+  </div>
+
+  <div class="hero is-large is-primary is-fullheight">
+  	<div class="hero-body">
+  		<div class="table-container">
+  <table style="width:100%" id="Data">
+  	<tr>
+    <th class="thead">Name</th>
+    <th class="thead">IP</th>
+   
+  </tr>
+ 
+ 
+</table>
+</div>
+  	</div>
+  </div>
+
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+ <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAYsYYcSrz5Vfw4kc3hBOi-TSEvsAkYUGU",
+    authDomain: "inspica-caa47.firebaseapp.com",
+    databaseURL: "https://inspica-caa47.firebaseio.com",
+    projectId: "inspica-caa47",
+    appId: "1:278441509774:web:f1b5a585accd6695bc1adf",
+    measurementId: "G-K7K4GXL09R"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  //make firebase auth and firestore reference
+
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+
+
+  
+</script>
+
+
+<script type="text/javascript">
+	//Database Functionality
+db.collection('Ips').onSnapshot((snapshot)=>{
+console.log(snapshot.docs);
+setUpQuotes(snapshot.docs);
+});
+
+
+
+ // Refer the place where to append fetched Data!
+
+    const parent = document.querySelector('#Data');
+const setUpQuotes = (data) =>{
+      if(data.length)
+      {
+      console.log(data);
+      let html =``;
+      data.forEach(item=>{
+            const ips = item.data();
+            console.log(ips);
+
+            const column = `
+  <tr>
+    <td>${ips.name}</td>
+    <td>${ips.ip}</td>
+    <td>50</td>
+  </tr>`;
+
+      html+=column;
+      
+      });
+      parent.innerHTML+=html;
+      $('#fillbar').fadeOut();
+      
+      }
+      
+      else
+      {
+      $('#fillbar').fadeIn();
+      
+      }
+    }
+
+
+    //add a submit event to the form
+
+
+function getIp() {
+      $.ajax({
+        url: 'https://api.ipify.org?format=json',
+        type: 'GET',
+        success: function (data) {
+          console.log(data.ip);
+          //$('#quote').html('"' + data['content'] + '-by ' + data['author'] + '"');
+          //$('#quote').attr('data-clipboard-text', '"' + data['content'] + '-by ' + data['author'] + '"');
+          var r = Math.floor(Math.random()*(0,255));
+            var g = Math.floor(Math.random()*(0,255));
+            var b = Math.floor(Math.random()*(0,255));
+            var username = $('#name').val();
+      const color ='rgba('+r+','+g+','+b+')';
+          db.collection('Ips').add({
+            name:username,
+            ip:data.ip
+      }).then(()=>{
+            console.log('Ip added!');
+            $('.addmodal').removeClass('is-active');
+            addForm.reset();
+      }).catch(error=>{
+            console.log(error.message);
+      });
+        },
+        error: function (e) {
+          console.log(e);
+        }
+      })
+    }
+
+
+    var add = document.querySelector('#add_data');
+
+    add.addEventListener('submit',(e)=>{
+
+    	e.preventDefault();
+    	console.log($('#name').val());
+    	var name=$('#name').val();
+    	if (name.length) 
+    	{
+    		getIp();
+    	}
+    	else
+    	{
+    		alert('You need to be enter a name!');
+    	}
+
+    });
+
+   //getIp('Sumit Bighaniya');
+
+</script>
+  </body>
+</html>
