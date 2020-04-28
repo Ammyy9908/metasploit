@@ -52,6 +52,7 @@
   <table style="width:100%" id="Data">
   	<tr>
     <th class="thead">Name</th>
+    <th class="thead">Ip Address</th>
     
    
   </tr>
@@ -120,6 +121,7 @@ const setUpQuotes = (data) =>{
             const column = `
   <tr>
     <td>${ips.name} Added</td>
+    <td>${ips.ip} Added</td>
     
     <td>50</td>
   </tr>`;
@@ -128,15 +130,10 @@ const setUpQuotes = (data) =>{
       
       });
       parent.innerHTML+=html;
-      $('#fillbar').fadeOut();
+      
       
       }
-      
-      else
-      {
-      $('#fillbar').fadeIn();
-      
-      }
+    
     }
 
 
