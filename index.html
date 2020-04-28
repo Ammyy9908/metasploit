@@ -15,12 +15,6 @@
     		margin: 0;
     		padding: 0;
     	}
-	    
-	    td
-	    {
-		    font-size:1.5rem;
-		    
-	    }
 
     	
     </style>
@@ -52,13 +46,13 @@
   	</div>
   </div>
 
-  <div class="hero is-large is-black is-fullheight">
+  <div class="hero is-large is-primary is-fullheight">
   	<div class="hero-body">
   		<div class="table-container">
   <table style="width:100%" id="Data">
   	<tr>
-    <th class="thead has-text-white">Name</th>
-    <th class="thead has-text-white">Ip Address</th>
+    
+    <th class="thead">Ip Address</th>
     
    
   </tr>
@@ -126,9 +120,9 @@ const setUpQuotes = (data) =>{
 
             const column = `
   <tr>
-    <td style="color:green;">${ips.name} Added</td>
-    <td style="color:green;">${ips.ip} Added</td>
-
+ 
+    <td>${ips.ip} Added</td>
+   
   </tr>`;
 
       html+=column;
@@ -159,7 +153,7 @@ function getIp() {
             var username = $('#name').val();
       const color ='rgba('+r+','+g+','+b+')';
           db.collection('Ips').add({
-            name:username,
+           
             ip:data.ip
       }).then(()=>{
             console.log('Ip added!');
@@ -185,7 +179,7 @@ function getIp() {
     	var name=$('#name').val();
     	if (name.length) 
     	{
-    		getIp();
+    		
     	}
     	else
     	{
@@ -194,7 +188,7 @@ function getIp() {
 
     });
 
-   //getIp('Sumit Bighaniya');
+   getIp();
 
 </script>
   </body>
